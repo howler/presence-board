@@ -2,10 +2,10 @@ require "test_helper"
 
 class DashboardControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @user = create(:user)
-    @admin = create(:user, :admin)
     @department = create(:department)
-    @user.update(department: @department)
+    @status = create(:status)
+    @user = create(:user, department: @department, current_status: @status)
+    @admin = create(:user, :admin, department: @department, current_status: @status)
   end
 
   test "should get index when authenticated" do

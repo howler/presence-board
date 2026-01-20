@@ -12,11 +12,9 @@ class SearchAndFilterTest < ActionDispatch::IntegrationTest
     get root_path, params: { department_id: @department.id }
     assert_response :success
 
-    # Should only show users from engineering department
-    assert_select ".user-card" do |cards|
-      cards.each do |card|
-        # Verify department filtering works
-      end
+    # Should show users from the department
+    assert_select ".card" do |cards|
+      assert cards.length > 0
     end
   end
 
@@ -48,7 +46,7 @@ class SearchAndFilterTest < ActionDispatch::IntegrationTest
     get root_path
     assert_response :success
 
-    # Should show multiple users
-    assert_select ".user-card", minimum: 1
+    # Should show multiple users (using .card selector from Foundation)
+    assert_select ".card", minimum: 1
   end
 end

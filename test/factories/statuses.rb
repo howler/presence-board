@@ -1,35 +1,35 @@
 FactoryBot.define do
   factory :status do
-    label { "In" }
+    sequence(:label) { |n| "In #{n}" }
     color_code { "#2ecc71" }
     icon { "✓" }
 
     trait :out do
-      label { "Out" }
+      sequence(:label) { |n| "Out #{n}" }
       color_code { "#e74c3c" }
       icon { "✗" }
     end
 
     trait :lunch do
-      label { "Lunch" }
+      sequence(:label) { |n| "Lunch #{n}" }
       color_code { "#f39c12" }
       icon { "🍽" }
     end
 
     trait :meeting do
-      label { "Meeting" }
+      sequence(:label) { |n| "Meeting #{n}" }
       color_code { "#3498db" }
       icon { "📅" }
     end
 
     trait :remote do
-      label { "Remote" }
+      sequence(:label) { |n| "Remote #{n}" }
       color_code { "#9b59b6" }
       icon { "🏠" }
     end
 
     trait :sick do
-      label { "Sick/Leave" }
+      sequence(:label) { |n| "Sick/Leave #{n}" }
       color_code { "#95a5a6" }
       icon { "🏥" }
     end

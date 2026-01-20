@@ -1,17 +1,21 @@
 FactoryBot.define do
   factory :department do
-    name { "Engineering" }
+    sequence(:name) { |n| "Engineering #{n}" }
+
+    trait :engineering do
+      sequence(:name) { |n| "Engineering #{n}" }
+    end
 
     trait :sales do
-      name { "Sales" }
+      sequence(:name) { |n| "Sales #{n}" }
     end
 
     trait :hr do
-      name { "Human Resources" }
+      sequence(:name) { |n| "Human Resources #{n}" }
     end
 
     trait :marketing do
-      name { "Marketing" }
+      sequence(:name) { |n| "Marketing #{n}" }
     end
   end
 end

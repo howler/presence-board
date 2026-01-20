@@ -5,19 +5,33 @@ module Api
       before_action :authenticate_api_user
 
       def update
-        # Use current_user if authenticated, otherwise find by email
-        user = current_user || User.find_by(email: params[:email])
+        # Determine target user
+        target_user = if params[:email].present?
+          User.find_by(email: params[:email])
+        elsif user_signed_in?
+          current_user
+        else
+          nil
+        end
 
-        unless user
+        unless target_user
           render json: { error: "User not found" }, status: :not_found
           return
         end
 
         # Only allow users to update their own status unless they're admin
-        unless current_user == user || current_user&.admin?
+        # If email is provided, require admin access
+        if params[:email].present?
+          unless user_signed_in? && current_user.admin?
+            render json: { error: "Unauthorized" }, status: :unauthorized
+            return
+          end
+        elsif user_signed_in? && current_user != target_user && !current_user.admin?
           render json: { error: "Unauthorized" }, status: :unauthorized
           return
         end
+
+        user = target_user
 
         status = Status.find_by(id: params[:status_id])
 

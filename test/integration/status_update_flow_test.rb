@@ -48,7 +48,7 @@ class StatusUpdateFlowTest < ActionDispatch::IntegrationTest
 
     # Check that updated status is displayed
     @user.reload
-    assert_select ".status-indicator" do |elements|
+    assert_select ".label" do |elements|
       assert elements.any? { |el| el.text.include?(@status.label) }
     end
   end
