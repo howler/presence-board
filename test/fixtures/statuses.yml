@@ -1,0 +1,35 @@
+in:
+  label: In
+  color_code: "#2ecc71"
+  icon: "✓"
+  created_at: <%= 1.week.ago %>
+
+out:
+  label: Out
+  color_code: "#e74c3c"
+  icon: "✗"
+  created_at: <%= 1.week.ago %>
+
+lunch:
+  label: Lunch
+  color_code: "#f39c12"
+  icon: "🍽"
+  created_at: <%= 1.week.ago %>
+
+meeting:
+  label: Meeting
+  color_code: "#3498db"
+  icon: "📅"
+  created_at: <%= 1.week.ago %>
+
+remote:
+  label: Remote
+  color_code: "#9b59b6"
+  icon: "🏠"
+  created_at: <%= 1.week.ago %>
+
+sick:
+  label: Sick/Leave
+  color_code: "#95a5a6"
+  icon: "🏥"
+  created_at: <%= 1.week.ago %>

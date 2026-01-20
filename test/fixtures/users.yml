@@ -1,0 +1,35 @@
+admin:
+  name: Admin User
+  email: admin@example.com
+  encrypted_password: <%= BCrypt::Password.create('password', cost: 4) %>
+  role: admin
+  department: engineering
+  current_status: in
+  created_at: <%= 1.week.ago %>
+
+john:
+  name: John Doe
+  email: john@example.com
+  encrypted_password: <%= BCrypt::Password.create('password', cost: 4) %>
+  role: user
+  department: engineering
+  current_status: in
+  created_at: <%= 1.week.ago %>
+
+jane:
+  name: Jane Smith
+  email: jane@example.com
+  encrypted_password: <%= BCrypt::Password.create('password', cost: 4) %>
+  role: user
+  department: sales
+  current_status: out
+  created_at: <%= 1.week.ago %>
+
+bob:
+  name: Bob Johnson
+  email: bob@example.com
+  encrypted_password: <%= BCrypt::Password.create('password', cost: 4) %>
+  role: user
+  department: engineering
+  current_status: meeting
+  created_at: <%= 1.week.ago %>

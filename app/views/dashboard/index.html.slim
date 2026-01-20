@@ -1,0 +1,59 @@
+.row
+  .columns.small-12
+    h1 Presence Board
+
+.row
+  .columns.small-12.medium-8.medium-offset-2
+    .card
+      .card-section
+        = form_with url: root_path, method: :get, local: true, data: { controller: "search" } do |f|
+          .grid-x.grid-margin-x
+            .cell.small-12.medium-8
+              = f.text_field :search, placeholder: "Search by name or email", value: params[:search], data: { search_target: "input", action: "input->search#perform" }, class: "input-group-field"
+            .cell.small-12.medium-4
+              = f.select :department_id, options_from_collection_for_select(@departments, :id, :name, params[:department_id]), { prompt: "All Departments" }, { data: { action: "change->search#perform" }, class: "input-group-field" }
+
+.row data-controller="presence" data-presence-channel-value="presence"
+  - @users.each do |user|
+    .columns.small-12.medium-6.large-4.xlarge-3 data-presence-target="userCard" data-user-id=user.id
+      .card
+        .card-section
+          .grid-x.grid-margin-x
+            .cell.small-3
+              - if user.avatar_url.present?
+                img src=user.avatar_url alt=user.name style="width: 100%; border-radius: 50%;"
+              - else
+                .avatar-placeholder style="width: 100%; height: 60px; background: #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center;"
+                  = user.name.first.upcase
+              .cell.small-9
+                h5 = user.name
+                - if user.department
+                  p.small.text-muted = user.department.name
+                - if user.current_status
+                  .label style="background-color: #{user.current_status.color_code}; margin-top: 5px;"
+                    - if user.current_status.icon.present?
+                      span = user.current_status.icon
+                      | &nbsp;
+                    = user.current_status.label
+                - if user.current_note.present?
+                  p.small style="margin-top: 5px; font-style: italic; color: #666;" = user.current_note
+                - if user.status_logs.last
+                  p.small style="margin-top: 5px; color: #999;"
+                    | Last updated: #{time_ago_in_words(user.status_logs.last.created_at)} ago
+
+- if user_signed_in?
+  .row
+    .columns.small-12.medium-8.medium-offset-2
+      .card
+        .card-section
+          h3 Update My Status
+          = form_with url: api_v1_status_path, method: :patch, local: false, data: { controller: "status-update", action: "submit->status-update#updateStatus" } do |f|
+            .grid-x.grid-margin-x
+              .cell.small-12.medium-6
+                = f.label :status_id, "Status"
+                = f.select :status_id, options_from_collection_for_select(@statuses, :id, :label, current_user.current_status_id), { prompt: "Select status" }, { data: { status_update_target: "statusSelect" }, class: "input-group-field" }
+              .cell.small-12.medium-6
+                = f.label :note, "Note (optional)"
+                = f.text_field :note, placeholder: "e.g., 'In a meeting until 2:00 PM'", data: { status_update_target: "noteInput" }, class: "input-group-field"
+              .cell.small-12
+                = f.submit "Update Status", class: "button expanded", data: { status_update_target: "submitButton" }

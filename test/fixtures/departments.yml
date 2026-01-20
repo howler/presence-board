@@ -1,0 +1,15 @@
+engineering:
+  name: Engineering
+  created_at: <%= 1.week.ago %>
+
+sales:
+  name: Sales
+  created_at: <%= 1.week.ago %>
+
+hr:
+  name: Human Resources
+  created_at: <%= 1.week.ago %>
+
+marketing:
+  name: Marketing
+  created_at: <%= 1.week.ago %>

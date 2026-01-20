@@ -1,0 +1,34 @@
+.kiosk-header
+  h1 Presence Board
+  p Last updated: 
+    span data-presence-target="lastUpdate" = Time.current.strftime("%I:%M %p")
+
+.row data-controller="presence kiosk" data-presence-channel-value="presence"
+  - @users.each do |user|
+    .columns.small-12.medium-6.large-4.xlarge-3 data-presence-target="userCard" data-user-id=user.id
+      .user-card
+        .grid-x.grid-margin-x
+          .cell.small-3
+            - if user.avatar_url.present?
+              img src=user.avatar_url alt=user.name style="width: 100%; border-radius: 50%;"
+            - else
+              .avatar-placeholder style="width: 100%; height: 80px; background: #3498db; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2em; font-weight: bold;"
+                = user.name.first.upcase
+          .cell.small-9
+            h3 style="margin: 0; font-size: 1.5em;" = user.name
+            - if user.department
+              p style="margin: 5px 0; color: #666; font-size: 0.9em;" = user.department.name
+            - if user.current_status
+              .status-badge style="background-color: #{user.current_status.color_code};"
+                - if user.current_status.icon.present?
+                  span = user.current_status.icon
+                  | &nbsp;
+                = user.current_status.label
+            - else
+              .status-badge style="background-color: #95a5a6;"
+                | No Status
+            - if user.current_note.present?
+              p style="margin-top: 10px; font-style: italic; color: #555; font-size: 0.9em;" = user.current_note
+            - if user.status_logs.last
+              p style="margin-top: 5px; color: #999; font-size: 0.8em;"
+                | Updated #{time_ago_in_words(user.status_logs.last.created_at)} ago

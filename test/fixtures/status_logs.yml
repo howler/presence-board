@@ -1,0 +1,17 @@
+one:
+  user: john
+  status: in
+  note: "Working from office"
+  created_at: <%= 1.hour.ago %>
+
+two:
+  user: jane
+  status: out
+  note: "At client meeting"
+  created_at: <%= 2.hours.ago %>
+
+three:
+  user: bob
+  status: meeting
+  note: "Team standup"
+  created_at: <%= 30.minutes.ago %>
