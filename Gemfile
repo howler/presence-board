@@ -66,7 +66,7 @@ group :development, :test do
   gem "factory_bot_rails"
   
   # Pin minitest to 5.x for Rails 8.0.4 compatibility
-  gem "minitest", "~> 5.25"
+  gem "minitest", "~> 6.0"
 end
 
 group :development do
