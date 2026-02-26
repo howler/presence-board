@@ -5,6 +5,7 @@ class Api::V1::StatusControllerTest < ActionDispatch::IntegrationTest
     @user = create(:user)
     @admin = create(:user, :admin)
     @status = create(:status, :out)
+    get new_user_session_path
   end
 
   test "should update status for authenticated user" do
