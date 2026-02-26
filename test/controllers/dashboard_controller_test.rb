@@ -49,4 +49,38 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "form[action=?]", api_v1_status_path, count: 0
   end
+
+  test "should display current user name in navigation when authenticated" do
+    sign_in @user
+    get root_path
+    assert_response :success
+    assert_includes response.body, "Welcome,"
+    assert_includes response.body, @user.name
+  end
+
+  test "dashboard should include presence controller and user card markup for real-time updates" do
+    sign_in @user
+    get root_path
+    assert_response :success
+    assert_select "[data-controller='presence']", count: 1
+    assert_select "[data-user-id]", minimum: 1
+    assert_select ".label", minimum: 1
+  end
+
+  test "dashboard user cards should include user-note and last-updated classes when applicable" do
+    sign_in @user
+    @user.update!(current_note: "Test note")
+    create(:status_log, user: @user, status: @status) # ensures .last-updated is rendered
+    get root_path
+    assert_response :success
+    assert_select ".user-note", minimum: 1
+    assert_select ".last-updated", minimum: 1
+  end
+
+  test "update status form should have status-update controller for immediate local update" do
+    sign_in @user
+    get root_path
+    assert_response :success
+    assert_select "form[data-controller*='status-update']", count: 1
+  end
 end

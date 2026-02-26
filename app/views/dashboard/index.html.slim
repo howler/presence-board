@@ -36,9 +36,9 @@
                       | &nbsp;
                     = user.current_status.label
                 - if user.current_note.present?
-                  p.small style="margin-top: 5px; font-style: italic; color: #666;" = user.current_note
+                  p.small.user-note style="margin-top: 5px; font-style: italic; color: #666;" = user.current_note
                 - if user.status_logs.last
-                  p.small style="margin-top: 5px; color: #999;"
+                  p.small.last-updated style="margin-top: 5px; color: #999;"
                     | Last updated: #{time_ago_in_words(user.status_logs.last.created_at)} ago
 
 - if user_signed_in?

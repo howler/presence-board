@@ -7,7 +7,7 @@ export default class extends Controller {
     event.preventDefault()
     const form = this.element
     const formData = new FormData(form)
-    
+
     fetch(form.action, {
       method: "PATCH",
       body: formData,
@@ -21,7 +21,8 @@ export default class extends Controller {
       if (data.success) {
         // Show success message
         this.showMessage("Status updated successfully!", "success")
-        // The real-time update will be handled by the PresenceChannel
+        // Update current user's card immediately
+        document.dispatchEvent(new CustomEvent("presence:update", { detail: { type: "status_update", user: data.user } }))
       } else {
         this.showMessage("Failed to update status", "error")
       }
@@ -39,7 +40,7 @@ export default class extends Controller {
     messageDiv.textContent = message
     messageDiv.style.cssText = "position: fixed; top: 20px; right: 20px; z-index: 1000;"
     document.body.appendChild(messageDiv)
-    
+
     setTimeout(() => {
       messageDiv.remove()
     }, 3000)
