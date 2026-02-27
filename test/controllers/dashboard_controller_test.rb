@@ -74,7 +74,9 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     get root_path
     assert_response :success
     assert_select ".user-note", minimum: 1
+    assert_select ".user-note", text: "Test note"
     assert_select ".last-updated", minimum: 1
+    assert_select ".last-updated", /Last updated:.*ago/
   end
 
   test "update status form should have status-update controller for immediate local update" do
