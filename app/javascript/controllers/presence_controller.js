@@ -44,7 +44,7 @@ export default class extends Controller {
         }
 
         // Update note within this card only
-        const noteElement = userCard.querySelector(".user-note, p.small[style*='font-style: italic']")
+        const noteElement = userCard.querySelector(".user-note, p[style*='font-style: italic']")
         if (data.user.note) {
           if (noteElement) {
             noteElement.textContent = data.user.note
