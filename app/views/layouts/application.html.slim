@@ -25,6 +25,8 @@ html
             li = link_to "Kiosk Mode", kiosk_path
             - if current_user.admin?
               li = link_to "Admin", admin_root_path
+            li.welcome
+              span Welcome, #{current_user.name}
             li = link_to "Sign Out", destroy_user_session_path, data: { turbo_method: :delete }
     - else
       nav.top-bar data-topbar=""

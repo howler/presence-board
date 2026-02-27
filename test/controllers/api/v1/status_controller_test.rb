@@ -5,6 +5,7 @@ class Api::V1::StatusControllerTest < ActionDispatch::IntegrationTest
     @user = create(:user)
     @admin = create(:user, :admin)
     @status = create(:status, :out)
+    get new_user_session_path
   end
 
   test "should update status for authenticated user" do
@@ -81,5 +82,24 @@ class Api::V1::StatusControllerTest < ActionDispatch::IntegrationTest
         note: "Test broadcast"
       }, as: :json
     end
+  end
+
+  test "should return full user payload for presence:update frontend event" do
+    sign_in @user
+    patch api_v1_status_path, params: {
+      status_id: @status.id,
+      note: "Back in 5"
+    }, as: :json
+
+    assert_response :success
+    json = JSON.parse(response.body)
+    assert json["success"]
+    assert_equal @user.id, json["user"]["id"]
+    assert_equal @user.name, json["user"]["name"]
+    assert_equal @status.id, json["user"]["status"]["id"]
+    assert_equal @status.label, json["user"]["status"]["label"]
+    assert_equal @status.color_code, json["user"]["status"]["color_code"]
+    assert json["user"]["status"].key?("icon")
+    assert_equal "Back in 5", json["user"]["note"]
   end
 end
